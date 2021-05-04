@@ -1,0 +1,199 @@
+:root {
+  --blade-hue: 0;
+  --blade-lightness: 50%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: white;
+  background-image: url("assets/SVG.svg");
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: left top;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 100px 50px 1fr;
+  min-height: 98.9vh;
+  place-items: center;
+  font-family: "Zen Dots", serif;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
+/* Selectores de colores */
+
+[name="color"] {
+  grid-row: 1/2;
+  align-self: end;
+  margin: 2em;
+}
+
+.hilt {
+  cursor: pointer;
+}
+
+[name="color"] {
+  display: none;
+}
+.label {
+  margin-top: 40px;
+  padding: 25px;
+  cursor: pointer;
+}
+
+.label:hover {
+  border-radius: 50%;
+  box-shadow: inset 0 0 4px hsl(0 100% 100% / 1), 0 0 1em hsl(150 100% 30% / 8),
+    0 0 1.5em hsl(0 100% 70% / 0.7), 0 0 2em hsl(200 100% 50% / 0.5),
+    0 0 3em hsl(0 100% 50% / 0.3), 0 0 5em hsl(0 100% 20% / 0.2);
+  background-color: #161616;
+}
+
+label:not(.hilt) {
+  color: white;
+  font-weight: bold;
+  align-self: start;
+}
+
+/* Estilos de la espada */
+
+.lightsaber {
+  cursor: pointer;
+  margin-top: 125vh;
+  grid-column: 1 / -1;
+  position: relative;
+}
+
+#on-off {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.hilt {
+  display: block;
+  width: 0.75rem;
+  height: 7rem;
+  background-color: red;
+  border-radius: 0 0 4px 4px;
+  background-image: linear-gradient(
+    silver 0 10px,
+    hsl(39 75% 50%) 0 14px,
+    silver 0 15px,
+    black 0 20px,
+    silver 0 22px,
+    black 0 25px,
+    silver 0 27px,
+    black 0 30px,
+    silver 0 32px,
+    black 0 35px,
+    silver 0 37px,
+    black 0 40px,
+    silver 0 42px,
+    black 0 45px,
+    silver 0 47px,
+    black 0 50px,
+    silver 0 60px,
+    hsl(39 75% 50%) 60px 80px,
+    silver 0 100%
+  );
+}
+
+.blade {
+  position: absolute;
+  background: white;
+  height: 350%;
+  width: 100%;
+  bottom: 100%;
+  border-radius: 100vw 100vw 0 0;
+  box-shadow: inset 0 0 4px
+      hsl(var(--blade-hue) 100% var(--blade-lightness) / 1),
+    0 0 1em hsl(var(--blade-hue) 100% var(--blade-lightness) / 8),
+    0 0 1.5em hsl(var(--blade-hue) 100% var(--blade-lightness) / 0.7),
+    0 0 2em hsl(var(--blade-hue) 100% var(--blade-lightness) / 0.5),
+    0 0 3em hsl(var(--blade-hue) 100% var(--blade-lightness) / 0.3),
+    0 0 5em hsl(var(--blade-hue) 100% var(--blade-lightness) / 0.2);
+
+  transition: transform 70ms ease-out;
+  transform-origin: bottom;
+}
+
+.blade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: hsl(var(--blade-hue) 100% var(--blade-lightness));
+  border-radius: inherit;
+  filter: blur(0.5em);
+  opacity: 1;
+  animation: pulse linear 0.025s infinite;
+}
+
+.blade::before {
+  content: "";
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: white;
+  border-radius: inherit;
+  z-index: 10;
+}
+
+@keyframes pulse {
+  15% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Prender y apagar la espada */
+
+#on-off:not(:checked) + .blade {
+  transform: scaleY(0);
+}
+
+#on-off:checked + .blade {
+  transform: scaleY(1);
+}
+
+/* Cambiar el color */
+
+#verde:checked ~ .lightsaber {
+  --blade-hue: 120;
+}
+#azul:checked ~ .lightsaber {
+  --blade-hue: 240;
+}
+#amarillo:checked ~ .lightsaber {
+  --blade-hue: 60;
+}
+#purpura:checked ~ .lightsaber {
+  --blade-hue: 290;
+}
+
+#rojo:checked ~ .lightsaber {
+  --blade-hue: 360;
+}
+#negra:checked ~ .lightsaber {
+  --blade-lightness: 0%;
+}
+#negra:checked ~ .lightsaber .blade::before {
+  background: black;
+}
